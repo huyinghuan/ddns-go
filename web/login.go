@@ -108,6 +108,20 @@ func LoginFunc(w http.ResponseWriter, r *http.Request) {
 	returnError(w, util.LogStr("用户名或密码错误"))
 }
 
+func LogoutFunc(w http.ResponseWriter, r *http.Request) {
+	// 覆盖cookie
+	cookieInSystem = &http.Cookie{
+		Name:     cookieName,
+		Value:    "", // 生成token
+		Path:     "/",
+		HttpOnly: true,
+	}
+	// 写入cookie
+	http.SetCookie(w, cookieInSystem)
+	util.Log("注销登录成功")
+	returnOK(w, "", nil)
+}
+
 // loginUnlock login unlock, return minute
 func loginUnlock() (minute uint32) {
 	ld.failedTimes = ld.failedTimes + 1

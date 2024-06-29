@@ -37,6 +37,11 @@
           >
             Logs
           </button>
+          <span 
+            id="logoutBtn"
+            title="Logout"
+            class="gg-log-out"
+          ></span>
           <span
             class="theme-button gg-dark-mode"
             id="themeButton"
@@ -1124,7 +1129,20 @@
         }
       });
     });
-
+    // 退出登录
+    document.getElementById("logoutBtn").addEventListener('click', async e => {
+        e.preventDefault();
+        try {
+            await request.get("./logout");
+            window.location.reload()
+          } catch (err) {
+            showMessage({
+              content: err.toString(),
+              type: "error",
+              duration: 5000,
+            });
+          }
+        });
     // 页面加载完成后定时获取日志
     document.addEventListener('DOMContentLoaded', () => getLogs(true));
   </script>
